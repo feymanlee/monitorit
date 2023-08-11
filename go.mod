@@ -1,6 +1,6 @@
 module github.com/feymanlee/monitorit
 
-go 1.17
+go 1.18
 
 require (
 	github.com/go-kratos/kratos/contrib/metrics/prometheus/v2 v2.0.0-20230808051727-7888107c4b4f
