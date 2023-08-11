@@ -47,7 +47,7 @@ func init() {
 	prometheus.MustRegister(serverMetricSeconds, clientMetricRequests, panicCounter)
 }
 
-func PanicInc(ctx context.Context, err any) {
+func PanicInc(ctx context.Context, err interface{}) {
 	var (
 		kind      string
 		operation string
