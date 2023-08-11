@@ -9,11 +9,10 @@
 package gorm
 
 import (
-	"context"
+	"log"
 	"time"
 
-	"github.com/feymanlee/logit"
-	"github.com/feymanlee/monitorit/kratos"
+	"github.com/feymanlee/monitorit"
 	"github.com/prometheus/client_golang/prometheus"
 	"gorm.io/gorm"
 )
@@ -43,7 +42,7 @@ func NewStats(dbName string, opts ...Option) *DBStats {
 	options.Merge(opts...)
 	stats := &DBStats{
 		options: options,
-		maxOpenConnections: redis.Register(prometheus.NewGauge(prometheus.GaugeOpts{
+		maxOpenConnections: monitorit.Register(prometheus.NewGauge(prometheus.GaugeOpts{
 			Namespace: options.Namespace,
 			Subsystem: options.Subsystem,
 			Name:      "dbstats_max_open_connections",
@@ -51,56 +50,56 @@ func NewStats(dbName string, opts ...Option) *DBStats {
 			Help:        "Maximum number of open connections to the database.",
 			ConstLabels: statLabelNames,
 		})).(prometheus.Gauge),
-		openConnections: redis.Register(prometheus.NewGauge(prometheus.GaugeOpts{
+		openConnections: monitorit.Register(prometheus.NewGauge(prometheus.GaugeOpts{
 			Namespace:   options.Namespace,
 			Subsystem:   options.Subsystem,
 			Name:        "dbstats_open_connections",
 			Help:        "The number of established connections both in use and idle.",
 			ConstLabels: statLabelNames,
 		})).(prometheus.Gauge),
-		inUse: redis.Register(prometheus.NewGauge(prometheus.GaugeOpts{
+		inUse: monitorit.Register(prometheus.NewGauge(prometheus.GaugeOpts{
 			Namespace:   options.Namespace,
 			Subsystem:   options.Subsystem,
 			Name:        "dbstats_in_use",
 			Help:        "The number of connections currently in use.",
 			ConstLabels: statLabelNames,
 		})).(prometheus.Gauge),
-		idle: redis.Register(prometheus.NewGauge(prometheus.GaugeOpts{
+		idle: monitorit.Register(prometheus.NewGauge(prometheus.GaugeOpts{
 			Namespace:   options.Namespace,
 			Subsystem:   options.Subsystem,
 			Name:        "dbstats_idle",
 			Help:        "The number of idle connections.",
 			ConstLabels: statLabelNames,
 		})).(prometheus.Gauge),
-		waitCount: redis.Register(prometheus.NewGauge(prometheus.GaugeOpts{
+		waitCount: monitorit.Register(prometheus.NewGauge(prometheus.GaugeOpts{
 			Namespace:   options.Namespace,
 			Subsystem:   options.Subsystem,
 			Name:        "dbstats_wait_count",
 			Help:        "The total number of connections waited for.",
 			ConstLabels: statLabelNames,
 		})).(prometheus.Gauge),
-		waitDuration: redis.Register(prometheus.NewGauge(prometheus.GaugeOpts{
+		waitDuration: monitorit.Register(prometheus.NewGauge(prometheus.GaugeOpts{
 			Namespace:   options.Namespace,
 			Subsystem:   options.Subsystem,
 			Name:        "dbstats_wait_duration",
 			Help:        "The total time blocked waiting for a new connection.",
 			ConstLabels: statLabelNames,
 		})).(prometheus.Gauge),
-		maxIdleClosed: redis.Register(prometheus.NewGauge(prometheus.GaugeOpts{
+		maxIdleClosed: monitorit.Register(prometheus.NewGauge(prometheus.GaugeOpts{
 			Namespace:   options.Namespace,
 			Subsystem:   options.Subsystem,
 			Name:        "dbstats_max_idle_closed",
 			Help:        "The total number of connections closed due to SetMaxIdleConns.",
 			ConstLabels: statLabelNames,
 		})).(prometheus.Gauge),
-		maxLifetimeClosed: redis.Register(prometheus.NewGauge(prometheus.GaugeOpts{
+		maxLifetimeClosed: monitorit.Register(prometheus.NewGauge(prometheus.GaugeOpts{
 			Namespace:   options.Namespace,
 			Subsystem:   options.Subsystem,
 			Name:        "dbstats_max_lifetime_closed",
 			Help:        "The total number of connections closed due to SetConnMaxLifetime.",
 			ConstLabels: statLabelNames,
 		})).(prometheus.Gauge),
-		maxIdleTimeClosed: redis.Register(prometheus.NewGauge(prometheus.GaugeOpts{
+		maxIdleTimeClosed: monitorit.Register(prometheus.NewGauge(prometheus.GaugeOpts{
 			Namespace:   options.Namespace,
 			Subsystem:   options.Subsystem,
 			Name:        "dbstats_max_idletime_closed",
@@ -127,7 +126,7 @@ func (s *DBStats) StartStats(db *gorm.DB) {
 				s.maxLifetimeClosed.Set(float64(dbStats.MaxLifetimeClosed))
 				s.maxIdleTimeClosed.Set(float64(dbStats.MaxIdleTimeClosed))
 			} else {
-				logit.Errorf(context.Background(), "gorm:prometheus failed to collect db status, got error: %v", err)
+				log.Printf("gorm:prometheus failed to collect db status, got error: %v", err)
 			}
 		}
 	}()

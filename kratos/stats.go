@@ -69,16 +69,3 @@ func PrometheusMiddleware() middleware.Middleware {
 		metrics.WithRequests(prom.NewCounter(clientMetricRequests)),
 	)
 }
-
-func Register(collector prometheus.Collector) prometheus.Collector {
-	err := prometheus.DefaultRegisterer.Register(collector)
-	if err == nil {
-		return collector
-	}
-
-	if arErr, ok := err.(prometheus.AlreadyRegisteredError); ok {
-		return arErr.ExistingCollector
-	}
-
-	panic(err)
-}

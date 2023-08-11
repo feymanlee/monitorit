@@ -11,7 +11,7 @@ package goredis
 import (
 	"time"
 
-	redis2 "github.com/feymanlee/monitorit/kratos"
+	"github.com/feymanlee/monitorit"
 	"github.com/go-redis/redis/v8"
 	"github.com/prometheus/client_golang/prometheus"
 )
@@ -32,7 +32,7 @@ func NewStat(instanceName string, opts ...Option) *Stats {
 	statLabels := prometheus.Labels{
 		"instance_name": instanceName,
 	}
-	stat.totalConns = redis2.Register(prometheus.NewGauge(prometheus.GaugeOpts{
+	stat.totalConns = monitorit.Register(prometheus.NewGauge(prometheus.GaugeOpts{
 		Namespace:   options.Namespace,
 		Subsystem:   options.Subsystem,
 		Name:        "pool_total_conns",
@@ -40,7 +40,7 @@ func NewStat(instanceName string, opts ...Option) *Stats {
 		ConstLabels: statLabels,
 	})).(prometheus.Gauge)
 
-	stat.idleConns = redis2.Register(prometheus.NewGauge(prometheus.GaugeOpts{
+	stat.idleConns = monitorit.Register(prometheus.NewGauge(prometheus.GaugeOpts{
 		Namespace:   options.Namespace,
 		Subsystem:   options.Subsystem,
 		Name:        "pool_idle_conns",
@@ -48,7 +48,7 @@ func NewStat(instanceName string, opts ...Option) *Stats {
 		ConstLabels: statLabels,
 	})).(prometheus.Gauge)
 
-	stat.staleConns = redis2.Register(prometheus.NewGauge(prometheus.GaugeOpts{
+	stat.staleConns = monitorit.Register(prometheus.NewGauge(prometheus.GaugeOpts{
 		Namespace:   options.Namespace,
 		Subsystem:   options.Subsystem,
 		Name:        "pool_stale_conns",

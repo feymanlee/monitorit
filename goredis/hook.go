@@ -13,7 +13,7 @@ import (
 	"fmt"
 	"time"
 
-	redis2 "github.com/feymanlee/monitorit/kratos"
+	"github.com/feymanlee/monitorit"
 	"github.com/go-redis/redis/v8"
 	"github.com/prometheus/client_golang/prometheus"
 )
@@ -54,7 +54,7 @@ var (
 func NewHook(instanceName string, opts ...Option) *Hook {
 	options := DefaultOptions()
 	options.Merge(opts...)
-	singleCommands := redis2.Register(prometheus.NewHistogramVec(prometheus.HistogramOpts{
+	singleCommands := monitorit.Register(prometheus.NewHistogramVec(prometheus.HistogramOpts{
 		Namespace: options.Namespace,
 		Subsystem: options.Subsystem,
 		Name:      "single_commands",
@@ -62,21 +62,21 @@ func NewHook(instanceName string, opts ...Option) *Hook {
 		Buckets:   options.DurationBuckets,
 	}, commandLabelNames)).(*prometheus.HistogramVec)
 
-	pipelinedCommands := redis2.Register(prometheus.NewCounterVec(prometheus.CounterOpts{
+	pipelinedCommands := monitorit.Register(prometheus.NewCounterVec(prometheus.CounterOpts{
 		Namespace: options.Namespace,
 		Subsystem: options.Subsystem,
 		Name:      "pipelined_commands",
 		Help:      "Number of pipelined Redis commands",
 	}, commandLabelNames)).(*prometheus.CounterVec)
 
-	singleErrors := redis2.Register(prometheus.NewCounterVec(prometheus.CounterOpts{
+	singleErrors := monitorit.Register(prometheus.NewCounterVec(prometheus.CounterOpts{
 		Namespace: options.Namespace,
 		Subsystem: options.Subsystem,
 		Name:      "single_errors",
 		Help:      "Number of single Redis commands that have failed",
 	}, errorLabelNames)).(*prometheus.CounterVec)
 
-	pipelinedErrors := redis2.Register(prometheus.NewCounterVec(prometheus.CounterOpts{
+	pipelinedErrors := monitorit.Register(prometheus.NewCounterVec(prometheus.CounterOpts{
 		Namespace: options.Namespace,
 		Subsystem: options.Subsystem,
 		Name:      "pipelined_errors",
