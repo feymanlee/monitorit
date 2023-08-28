@@ -79,7 +79,7 @@ func (h *Hook) AfterProcess(c *contexts.ContextHook) error {
 func (h *Hook) getQueryType(sql string) string {
 	index := strings.Index(sql, " ")
 	if index != -1 {
-		return sql[:index]
+		return strings.ToLower(sql[:index])
 	} else {
 		return "unknown"
 	}
