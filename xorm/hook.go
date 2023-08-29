@@ -41,7 +41,7 @@ func NewHook(dbName string, opts ...Option) *Hook {
 		Namespace: options.Namespace,
 		Subsystem: options.Subsystem,
 		Name:      "query_duration_sec",
-		Help:      "Histogram of GORM query duration in seconds",
+		Help:      "Histogram of xorm query duration in seconds",
 		Buckets:   options.DurationBuckets,
 	}, queryLabelNames)).(*prometheus.HistogramVec)
 
@@ -49,13 +49,13 @@ func NewHook(dbName string, opts ...Option) *Hook {
 		Namespace: options.Namespace,
 		Subsystem: options.Subsystem,
 		Name:      "query_total",
-		Help:      "Number of GORM queries total",
+		Help:      "Number of xorm queries total",
 	}, queryLabelNames)).(*prometheus.CounterVec)
 
 	c.errorCounter = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "query_err_total",
-			Help: "Total number of GORM query errors",
+			Help: "Total number of xorm query errors",
 		},
 		errorLabelNames,
 	)
