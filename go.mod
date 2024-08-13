@@ -1,10 +1,10 @@
 module github.com/feymanlee/monitorit
 
-go 1.18
+go 1.19
 
 require (
 	github.com/go-kratos/kratos/contrib/metrics/prometheus/v2 v2.0.0-20230808051727-7888107c4b4f
-	github.com/go-kratos/kratos/v2 v2.7.0
+	github.com/go-kratos/kratos/v2 v2.8.0
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/prometheus/client_golang v1.16.0
 	gorm.io/gorm v1.25.3
@@ -17,7 +17,7 @@ require (
 	github.com/go-playground/assert/v2 v2.2.0 // indirect
 	github.com/go-playground/form/v4 v4.2.0 // indirect
 	github.com/goccy/go-json v0.8.1 // indirect
-	github.com/golang/protobuf v1.5.3 // indirect
+	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
@@ -30,10 +30,10 @@ require (
 	github.com/prometheus/common v0.44.0 // indirect
 	github.com/prometheus/procfs v0.10.1 // indirect
 	github.com/syndtr/goleveldb v1.0.0 // indirect
-	golang.org/x/sys v0.10.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20230629202037-9506855d4529 // indirect
-	google.golang.org/grpc v1.56.1 // indirect
-	google.golang.org/protobuf v1.31.0 // indirect
+	golang.org/x/sys v0.18.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240102182953-50ed04b92917 // indirect
+	google.golang.org/grpc v1.61.1 // indirect
+	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	xorm.io/builder v0.3.11-0.20220531020008-1bd24a7dc978 // indirect
 	xorm.io/xorm v1.3.2 // indirect
