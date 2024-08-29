@@ -12,9 +12,6 @@ import (
 	"context"
 	"fmt"
 
-	prom "github.com/go-kratos/kratos/contrib/metrics/prometheus/v2"
-	"github.com/go-kratos/kratos/v2/middleware"
-	"github.com/go-kratos/kratos/v2/middleware/metrics"
 	"github.com/go-kratos/kratos/v2/transport"
 	"github.com/prometheus/client_golang/prometheus"
 )
@@ -61,11 +58,4 @@ func PanicInc(ctx context.Context, err interface{}) {
 		"operation": operation,
 		"reason":    fmt.Sprintf("%s", err),
 	}).Inc()
-}
-
-func PrometheusMiddleware() middleware.Middleware {
-	return metrics.Server(
-		metrics.WithSeconds(prom.NewHistogram(serverMetricSeconds)),
-		metrics.WithRequests(prom.NewCounter(clientMetricRequests)),
-	)
 }
